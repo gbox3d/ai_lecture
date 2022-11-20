@@ -6,3 +6,5 @@
 
 [수업자료 폴더](https://drive.google.com/drive/folders/1W4TaZHOXEU9OPFg-71fc2bHlqg2KSVww?usp=share_link)
 
+[선형회귀] (https://colab.research.google.com/drive/1trwWDPtiWwyDwnJJS5_NftcVbHwyDymw?usp=sharing)
+
