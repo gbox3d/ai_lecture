@@ -1,4 +1,15 @@
-# 수업 교재
+## 개발환경 준비
+
+window mini conda 설치  
+https://docs.conda.io/en/latest/miniconda.html  
+
+vscode 와 미니콘다 연동  
+https://webnautes.tistory.com/1667  
+
+
+
+
+## 수업 교재
 
 [파이선기초](https://docs.google.com/presentation/d/1H0ftWU1Kdst1Ap0wQtqc5oN13KM0tKFHeH8C_4iF-4o/edit?usp=sharing)
 
