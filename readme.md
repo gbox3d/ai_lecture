@@ -1,13 +1,15 @@
 ## 개발환경 준비
 
-window mini conda 설치  
+**window mini conda 설치**  
 https://docs.conda.io/en/latest/miniconda.html  
 
-vscode 와 미니콘다 연동  
+**vscode 와 미니콘다 연동**  
 https://webnautes.tistory.com/1667  
 
-
-
+**conda 가상환경 에서 sklearn 설치시 주의할점**  
+https://d-e-v.tistory.com/10  
+pip install sklearn 으로 설치하면 에러가 난다.  
+conda install scikit-learn  
 
 ## 수업 교재
 
