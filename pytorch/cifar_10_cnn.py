@@ -109,18 +109,23 @@ optim = Adam(model.parameters(), lr=lr)
 
 # 학습 루프 정의
 for epoch in range(100):
-   for data, label in train_loader:  # ➌ 데이터 호출
-       optim.zero_grad()  # ➍ 기울기 초기화
+    print(f"step :{epoch}")
+    for data, label in train_loader:  # ➌ 데이터 호출
+        optim.zero_grad()  # ➍ 기울기 초기화
 
-       preds = model(data.to(device))  # ➎ 모델의 예측
+        preds = model(data.to(device))  # ➎ 모델의 예측
 
-       # ➏ 오차역전파와 최적화
-       loss = nn.CrossEntropyLoss()(preds, label.to(device)) 
-       loss.backward() 
-       optim.step() 
+        # ➏ 오차역전파와 최적화
+        loss = nn.CrossEntropyLoss()(preds, label.to(device)) 
+        loss.backward() 
+        optim.step() 
+        
+        #    print(f"step :{epoch}")
+        
+        
 
-   if epoch==0 or epoch%10==9:  # 10번마다 손실 출력
-       print(f"epoch{epoch+1} loss:{loss.item()}")
+    if epoch==0 or epoch%10==9:  # 10번마다 손실 출력
+        print(f"epoch{epoch+1} loss:{loss.item()}")
 
 
 # 모델 저장
