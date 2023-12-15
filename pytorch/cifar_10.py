@@ -20,3 +20,6 @@ plt.show()
     
 
 # %%
+print(training_data.data.shape)
+
+# %%
