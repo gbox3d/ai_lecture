@@ -56,7 +56,7 @@ lr = 1e-3
 optim = Adam(model.parameters(), lr=lr)
 
 # 학습 루프 정의
-for epoch in range(100):
+for epoch in range(10):
     
     start_tick = time.time()
     # for data, label in train_loader:  # ➌ 데이터 호출
