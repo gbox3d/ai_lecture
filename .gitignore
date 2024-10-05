@@ -2,3 +2,4 @@ api_keys/
 .DS_Store
 __pycache__/
 __datasets__/
+.venv/

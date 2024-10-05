@@ -30,7 +30,7 @@ data = pd.concat([data_1, data_2], ignore_index=True)
 # 금액 열에서 '원'을 제거하고 숫자 타입으로 변환
 price_columns = ['win1_pric', 'win2_pric', 'win3_pric', 'win4_pric', 'win5_pric']
 for col in price_columns:
-    data[col] = data[col].str.replace('원', '').str.replace(',', '').astype(int)
+    data[col] = data[col].str.replace('원', '').str.replace(',', '').astype(np.int64)
 
 data.info()
 
