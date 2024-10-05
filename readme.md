@@ -11,6 +11,14 @@ https://d-e-v.tistory.com/10
 pip install sklearn 으로 설치하면 에러가 난다.  
 conda install scikit-learn  
 
+
+## 필수 패키지  
+
+```bash
+pip install pandas scikit-learn matplotlib seaborn
+```
+
+
 ## 수업 교재
 
 [파이선기초](https://docs.google.com/presentation/d/1H0ftWU1Kdst1Ap0wQtqc5oN13KM0tKFHeH8C_4iF-4o/edit?usp=sharing)
