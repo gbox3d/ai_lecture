@@ -10,6 +10,12 @@ import torch.nn as nn
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
+
+#%% gpu 사용하기위하여 디바이스 얻기 
+# device = 'cpu'
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+print(f"device : {device} ")
 #%%
 
 
@@ -72,7 +78,6 @@ sequence_length = 10
 # 시퀀스 생성
 X, y = create_sequences(scaled_data, sequence_length)
 # %%
-#%%
 print(X.shape)
 print(y.shape)
 # %%
@@ -81,10 +86,10 @@ print(y.shape)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 
 # 텐서로 변환
-X_train = torch.tensor(X_train, dtype=torch.float32)
-y_train = torch.tensor(y_train, dtype=torch.float32)
-X_test = torch.tensor(X_test, dtype=torch.float32)
-y_test = torch.tensor(y_test, dtype=torch.float32)
+X_train = torch.tensor(X_train, dtype=torch.float32).to(device)
+y_train = torch.tensor(y_train, dtype=torch.float32).to(device)
+X_test = torch.tensor(X_test, dtype=torch.float32).to(device)
+y_test = torch.tensor(y_test, dtype=torch.float32).to(device)
 
 #%%
 print(X_train.shape)
@@ -115,7 +120,7 @@ hidden_size = 64  # LSTM의 은닉 상태 크기
 output_size = 7  # 예측해야 할 c1~cb의 7개 출력
 num_layers = 2  # LSTM 레이어 수
 
-model = LottoLSTM(input_size, hidden_size, output_size, num_layers)
+model = LottoLSTM(input_size, hidden_size, output_size, num_layers).to(device)
 
 # %%
 
@@ -124,7 +129,7 @@ criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # 모델 훈련
-num_epochs = 100
+num_epochs = 1000
 for epoch in range(num_epochs):
     model.train()
     
