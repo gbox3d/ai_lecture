@@ -3,3 +3,4 @@ api_keys/
 __pycache__/
 __datasets__/
 .venv/
+.conda/
