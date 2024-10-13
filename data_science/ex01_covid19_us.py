@@ -9,9 +9,9 @@ pd.show_versions()
 # %%
 raw_df = pd.read_csv('./__datasets__/owid-covid-data.csv')
 
-
-# %%
+#%%
 raw_df.info() 
+
 # %%
 raw_df.head()
 # %%
@@ -19,10 +19,10 @@ selected_columns = ['iso_code','location', 'date', 'total_cases','population']
 revise_df = raw_df[selected_columns]
 
 revise_df.head()
-
 # %%
 locations = revise_df['location'].unique()
 print(locations)
+
 # %% 대한민국 데이터만 추출
 korea_df = revise_df[revise_df['location'] == 'South Korea']
 korea_df.info()
