@@ -4,3 +4,4 @@ __pycache__/
 __datasets__/
 .venv/
 .conda/
+datasets/*
