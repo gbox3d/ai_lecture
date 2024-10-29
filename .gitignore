@@ -5,3 +5,4 @@ __datasets__/
 .venv/
 .conda/
 datasets/*
+temp/*
