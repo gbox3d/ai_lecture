@@ -20,8 +20,8 @@ print(f"device : {device} ")
 
 
 # CSV 파일 읽기
-data_1 = pd.read_csv('lotto_1.csv')
-data_2 = pd.read_csv('lotto_2.csv')
+data_1 = pd.read_csv('../datasets/lotto_1.csv')
+data_2 = pd.read_csv('../datasets/lotto_2.csv')
 
 # 두 데이터 병합
 data = pd.concat([data_1, data_2], ignore_index=True)
