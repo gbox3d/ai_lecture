@@ -40,8 +40,6 @@ for col in price_columns:
 
 data.info()
 
-
-
 #%% 'iso'를 인덱스로 설정하고 정렬
 data.set_index('iso', inplace=True)
 data.sort_index(inplace=True)
@@ -128,8 +126,8 @@ model = LottoLSTM(input_size, hidden_size, output_size, num_layers).to(device)
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-# 모델 훈련
-num_epochs = 1000
+#%% 모델 훈련
+num_epochs = 5000
 for epoch in range(num_epochs):
     model.train()
     
@@ -177,4 +175,63 @@ print("Predicted Lotto Numbers (Next Draw):", predicted_numbers[0])
 predicted_numbers_rounded = np.round(predicted_numbers).astype(int)
 
 print("Predicted Lotto Numbers (Next Draw):", predicted_numbers_rounded[0])
+
+
+# %%
+start_index = data.index.get_loc(target_draw) - sequence_length
+sequence = scaled_data[start_index:start_index + sequence_length]
+sequence = torch.tensor(sequence, dtype=torch.float32).unsqueeze(0).to(device)
+
+
+# %%
+# 예측
+model.eval()
+with torch.no_grad():
+    predicted_output = model(sequence)
+
+# 스케일 원래 범위로 복원 및 반올림하여 정수 변환
+predicted_numbers = scaler.inverse_transform(predicted_output.cpu().detach().numpy())
+predicted_numbers_rounded = np.round(predicted_numbers).astype(int)
+
+print(predicted_numbers_rounded[0])
+
+
+# %%
+def predictData(sequence_index):
+    # 인덱스 범위 확인
+    if sequence_index < len(X):
+        # 입력 시퀀스와 실제 출력 가져오기
+        input_sequence = X[sequence_index]
+        actual_output = y[sequence_index]
+
+        # 텐서로 변환 및 디바이스로 이동
+        input_sequence = torch.tensor(input_sequence, dtype=torch.float32).unsqueeze(0).to(device)
+        actual_output = torch.tensor(actual_output, dtype=torch.float32).unsqueeze(0).to(device)
+
+        # 모델 예측
+        model.eval()
+        with torch.no_grad():
+            predicted_output = model(input_sequence)
+
+        # 예측 결과와 실제 값을 CPU로 이동하고 NumPy 배열로 변환
+        predicted_output_np = predicted_output.cpu().detach().numpy()
+        actual_output_np = actual_output.cpu().detach().numpy()
+
+        # 스케일 원래 범위로 역변환 및 반올림하여 정수로 변환
+        predicted_numbers = np.round(scaler.inverse_transform(predicted_output_np)).astype(int)
+        actual_numbers = np.round(scaler.inverse_transform(actual_output_np)).astype(int)
+
+        return predicted_numbers[0], actual_numbers[0]
+    else:
+        print(f"Index {sequence_index} is out of range.")
+        return None, None
+
+    
+#%%
+# 예측 결과 출력
+predicted_numbers, actual_numbers = predictData(600)
+print("Predicted Lotto Numbers:", predicted_numbers)
+print("Actual Lotto Numbers:", actual_numbers)
+    
+
 # %%

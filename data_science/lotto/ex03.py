@@ -20,8 +20,8 @@ print(f"사용 중인 디바이스: {device}")
 
 #%%
 # CSV 파일 읽기
-data_1 = pd.read_csv('lotto_1.csv')
-data_2 = pd.read_csv('lotto_2.csv')
+data_1 = pd.read_csv('../datasets/lotto_1.csv')
+data_2 = pd.read_csv('../datasets/lotto_2.csv')
 
 # 두 데이터 병합
 data = pd.concat([data_1, data_2], ignore_index=True)
@@ -33,10 +33,10 @@ data = pd.concat([data_1, data_2], ignore_index=True)
 # data = pd.read_csv('lotto_1.csv')
 
 
-# 금액 열에서 '원'을 제거하고 숫자 타입으로 변환
-price_columns = ['win1_pric', 'win2_pric', 'win3_pric', 'win4_pric', 'win5_pric']
-for col in price_columns:
-    data[col] = data[col].str.replace('원', '').str.replace(',', '').astype(np.int64)
+# # 금액 열에서 '원'을 제거하고 숫자 타입으로 변환
+# price_columns = ['win1_pric', 'win2_pric', 'win3_pric', 'win4_pric', 'win5_pric']
+# for col in price_columns:
+#     data[col] = data[col].str.replace('원', '').str.replace(',', '').astype(np.int64)
 
 #%%
 data.info()
@@ -233,5 +233,46 @@ for epoch in range(num_epochs):
           .format(epoch+1, num_epochs, np.mean(train_losses), np.mean(train_accuracies),
                   np.mean(val_losses), np.mean(val_accuracies)))
 
+
+# %%
+
+# 예측하고자 하는 특정 회차 인덱스를 지정
+# 예를 들어, 마지막 회차라면 -1로 지정하고, 특정 회차 번호라면 해당 인덱스를 넣으면 됩니다.
+specific_round_index = 600  # 마지막 회차, 또는 원하는 회차의 인덱스로 변경
+specific_round_numbers = lotto_numbers[specific_round_index]
+
+# 선택한 회차 번호를 원핫 인코딩으로 변환
+specific_round_input = torch.tensor(numbers2ohbin(specific_round_numbers), dtype=torch.float32).to(device)
+specific_round_input = specific_round_input.unsqueeze(0)  # 배치 차원을 추가
+
+# 모델의 히든 상태 초기화
+batch_size = 1  # 단일 회차 예측이므로 배치 사이즈는 1
+hidden = model.init_hidden(batch_size)
+
+# 예측 모드로 모델 실행
+model.eval()
+with torch.no_grad():
+    # 모델에 입력하여 예측
+    output, hidden = model(specific_round_input, hidden)
+
+    # 예측된 원핫 벡터를 로또 번호로 변환
+    predicted_ohbin = (output >= 0.5).float().cpu().numpy()
+    predicted_numbers = ohbin2numbers(predicted_ohbin[0])
+
+print(f"{specific_round_index}번째 회차에 대한 예측 번호:", predicted_numbers)
+
+# %%
+# 'iso'를 인덱스로 사용한다고 가정하고, 600회차 당첨 번호 출력하기
+specific_round = 600
+
+# 특정 회차의 데이터 선택
+specific_round_data = data.loc[specific_round]
+
+# 당첨 번호와 보너스 번호 출력
+winning_numbers = specific_round_data[['c1', 'c2', 'c3', 'c4', 'c5', 'c6']].values
+bonus_number = specific_round_data['cb']
+
+print(f"{specific_round}회차 당첨 번호:", winning_numbers)
+print(f"{specific_round}회차 보너스 번호:", bonus_number)
 
 # %%
