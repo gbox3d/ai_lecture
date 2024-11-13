@@ -177,7 +177,8 @@ predicted_numbers_rounded = np.round(predicted_numbers).astype(int)
 print("Predicted Lotto Numbers (Next Draw):", predicted_numbers_rounded[0])
 
 
-# %%
+#%% 600회차 데이터 추출 및 예측
+target_draw = 600  # 예측하려는 회차 번호
 start_index = data.index.get_loc(target_draw) - sequence_length
 sequence = scaled_data[start_index:start_index + sequence_length]
 sequence = torch.tensor(sequence, dtype=torch.float32).unsqueeze(0).to(device)
